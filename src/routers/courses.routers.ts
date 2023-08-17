@@ -1,12 +1,25 @@
 import { Router } from "express";
+import { coursesControllers } from "../controllers";
+import middleware from "../middleware";
 
 
 const courseRouter: Router = Router()
 
-courseRouter.post("", )
-courseRouter.get("", )
-courseRouter.post("/:courseId/users/:userId", )
-courseRouter.delete("/:courseId/users/:userId", )
-courseRouter.get("/:id/users", )
+courseRouter.get("", coursesControllers.readAll)
+
+courseRouter.use(middleware.verifyToken)
+courseRouter.use(middleware.verifyUserPermission)
+
+courseRouter.post("", coursesControllers.create)
+courseRouter.get("/:id/users", coursesControllers.readCourseUsers)
+
+courseRouter.post("/:courseId/users/:userId", 
+    middleware.userOrCourseExists, 
+    coursesControllers.registerUserOnCourse
+)
+courseRouter.delete("/:courseId/users/:userId",
+    middleware.userOrCourseExists, 
+    coursesControllers.DeleteUserFromCourse 
+)
 
 export default courseRouter

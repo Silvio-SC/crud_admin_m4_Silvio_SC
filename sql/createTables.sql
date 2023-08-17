@@ -19,4 +19,5 @@ CREATE TABLE IF NOT EXISTS "userCourses" (
     "courseId" INTEGER NOT NULL,
     FOREIGN KEY ("userId") REFERENCES "users"("id"),
     FOREIGN KEY ("courseId") REFERENCES "courses"("id")
+        ON DELETE CASCADE
 );
